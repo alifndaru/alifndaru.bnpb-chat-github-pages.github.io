@@ -5,6 +5,8 @@
   "main": "public/index.html",
   "scripts": {
     "start": "http-server public -p 8080",
+    "widget": "http-server widget -p 3333 --cors",
+    "widget:custom": "node widget-server.js",
     "build": "echo 'Build step can be added here'",
     "deploy": "gh-pages -d public"
   },
