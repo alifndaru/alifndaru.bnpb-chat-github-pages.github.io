@@ -30,6 +30,17 @@ jobs:
         run: |
           echo "Files in public directory:"
           ls -la public/
+          echo ""
+          echo "Checking external-website-demo.html:"
+          if [ -f public/external-website-demo.html ]; then
+            echo "✅ external-website-demo.html exists"
+            ls -lh public/external-website-demo.html
+          else
+            echo "❌ external-website-demo.html NOT FOUND"
+          fi
+          echo ""
+          echo "All HTML files:"
+          find public -name "*.html" -type f
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
