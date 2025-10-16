@@ -323,7 +323,7 @@
 
     <!-- BNPB Chat Widget Integration -->
     <div id="bnpb-chat-widget-container">
-        <iframe id="bnpb-chat-widget-iframe" src="https://66903a56d31f.ngrok-free.app"
+        <iframe id="bnpb-chat-widget-iframe" src="https://8efab23065dc.ngrok-free.app"
             title="BNPB Chat Widget" allow="clipboard-write" loading="lazy">
         </iframe>
     </div>
@@ -336,7 +336,7 @@
         // Listen untuk pesan dari widget
         window.addEventListener('message', (event) => {
             // Verifikasi origin (di production, gunakan domain spesifik)
-            if (event.origin !== 'https://66903a56d31f.ngrok-free.app') {
+            if (event.origin !== 'https://8efab23065dc.ngrok-free.app') {
                 return;
             }
 
@@ -404,7 +404,7 @@
                     type,
                     data,
                     source: 'external-website'
-                }, 'https://66903a56d31f.ngrok-free.app');
+                }, 'https://8efab23065dc.ngrok-free.app');
             }
         }
 
