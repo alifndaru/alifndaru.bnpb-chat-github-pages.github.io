@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BNPB Chat Widget - Debug Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .status {
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .status h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    .loading { border-left: 4px solid #f59e0b; }
+    .success { border-left: 4px solid #10b981; }
+    .error { border-left: 4px solid #ef4444; }
+    .info { border-left: 4px solid #3b82f6; }
+    pre {
+      background: #1f2937;
+      color: #10b981;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 BNPB Chat Widget - Debug Test</h1>
+  
+  <div id="widget-status" class="status loading">
+    <h2>⏳ Status: Loading...</h2>
+    <p>Checking widget...</p>
+  </div>
+
+  <div class="status info">
+    <h2>📋 Configuration</h2>
+    <pre id="config">Loading configuration...</pre>
+  </div>
+
+  <div class="status info">
+    <h2>🔧 Controls</h2>
+    <button onclick="testWidgetLoad()">🔄 Reload Widget</button>
+    <button onclick="testAPIConnection()">🌐 Test API</button>
+    <button onclick="openWidget()">💬 Open Chat</button>
+    <button onclick="showConsole()">📊 Show Console Logs</button>
+  </div>
+
+  <div id="console-logs" class="status" style="display: none;">
+    <h2>📊 Console Logs</h2>
+    <pre id="logs"></pre>
+  </div>
+
+  <div class="status info">
+    <h2>✅ Checklist</h2>
+    <ul id="checklist">
+      <li>⏳ Widget script loading...</li>
+      <li>⏳ Widget initialized...</li>
+      <li>⏳ API connection...</li>
+      <li>⏳ Widget visible...</li>
+    </ul>
+  </div>
+
+  <!-- Widget Script -->
+  <script>
+    // Configuration
+    const CONFIG = {
+      widgetUrl: 'https://8efab23065dc.ngrok-free.app/widget/bnpb-chat-widget.js',
+      apiUrl: 'https://dkms.bnpb.go.id/ai/api/cms-backend/api/v1',
+      websiteId: 'github-pages-demo',
+      language: 'id'
+    };
+
+    // Display config
+    document.getElementById('config').textContent = JSON.stringify(CONFIG, null, 2);
+
+    // Console capture
+    const logs = [];
+    const originalLog = console.log;
+    const originalError = console.error;
+    const originalWarn = console.warn;
+
+    console.log = function(...args) {
+      logs.push({ type: 'log', message: args.join(' '), time: new Date().toISOString() });
+      originalLog.apply(console, args);
+    };
+
+    console.error = function(...args) {
+      logs.push({ type: 'error', message: args.join(' '), time: new Date().toISOString() });
+      originalError.apply(console, args);
+    };
+
+    console.warn = function(...args) {
+      logs.push({ type: 'warn', message: args.join(' '), time: new Date().toISOString() });
+      originalWarn.apply(console, args);
+    };
+
+    // Update status
+    function updateStatus(message, type = 'loading') {
+      const statusDiv = document.getElementById('widget-status');
+      statusDiv.className = `status ${type}`;
+      statusDiv.innerHTML = `<h2>${getIcon(type)} ${message}</h2>`;
+    }
+
+    function getIcon(type) {
+      const icons = {
+        loading: '⏳',
+        success: '✅',
+        error: '❌',
+        info: 'ℹ️'
+      };
+      return icons[type] || '•';
+    }
+
+    function updateChecklist(index, status, text) {
+      const checklist = document.getElementById('checklist');
+      const items = checklist.getElementsByTagName('li');
+      if (items[index]) {
+        const icon = status === 'success' ? '✅' : status === 'error' ? '❌' : '⏳';
+        items[index].textContent = `${icon} ${text}`;
+      }
+    }
+
+    // Test API connection
+    async function testAPIConnection() {
+      updateStatus('Testing API connection...', 'loading');
+      try {
+        const response = await fetch(`${CONFIG.apiUrl}/health`);
+        if (response.ok) {
+          updateStatus('API connection successful!', 'success');
+          updateChecklist(2, 'success', 'API connection - OK');
+        } else {
+          updateStatus(`API error: ${response.status}`, 'error');
+          updateChecklist(2, 'error', `API connection - Error ${response.status}`);
+        }
+      } catch (error) {
+        updateStatus(`API connection failed: ${error.message}`, 'error');
+        updateChecklist(2, 'error', `API connection - Failed: ${error.message}`);
+      }
+    }
+
+    // Test widget load
+    function testWidgetLoad() {
+      location.reload();
+    }
+
+    // Show console logs
+    function showConsole() {
+      const consoleDiv = document.getElementById('console-logs');
+      const logsDiv = document.getElementById('logs');
+      consoleDiv.style.display = 'block';
+      logsDiv.textContent = logs.map(log => 
+        `[${log.time}] ${log.type.toUpperCase()}: ${log.message}`
+      ).join('\n');
+    }
+
+    // Open widget
+    function openWidget() {
+      if (window.bnpbChatWidget) {
+        window.bnpbChatWidget.open();
+      } else {
+        alert('Widget not loaded yet!');
+      }
+    }
+
+    // Load widget script dynamically
+    function loadWidget() {
+      console.log('🚀 Loading widget from:', CONFIG.widgetUrl);
+      updateStatus('Loading widget script...', 'loading');
+
+      const script = document.createElement('script');
+      script.src = CONFIG.widgetUrl;
+      script.async = true;
+
+      // Set data attributes
+      script.setAttribute('data-api-url', CONFIG.apiUrl);
+      script.setAttribute('data-website-id', CONFIG.websiteId);
+      script.setAttribute('data-language', CONFIG.language);
+
+      script.onload = function() {
+        console.log('✅ Widget script loaded!');
+        updateStatus('Widget script loaded!', 'success');
+        updateChecklist(0, 'success', 'Widget script loading - OK');
+
+        // Check if widget initialized
+        setTimeout(() => {
+          if (window.bnpbChatWidget) {
+            console.log('✅ Widget instance found!');
+            updateStatus('Widget ready!', 'success');
+            updateChecklist(1, 'success', 'Widget initialized - OK');
+
+            // Check if visible
+            setTimeout(() => {
+              const widgetElement = document.getElementById('bnpb-chat-widget');
+              if (widgetElement) {
+                console.log('✅ Widget element found in DOM!');
+                updateChecklist(3, 'success', 'Widget visible - OK');
+              } else {
+                console.warn('⚠️ Widget element not found in DOM');
+                updateChecklist(3, 'error', 'Widget visible - Not found in DOM');
+              }
+            }, 2000);
+          } else {
+            console.error('❌ Widget instance not found!');
+            updateStatus('Widget failed to initialize', 'error');
+            updateChecklist(1, 'error', 'Widget initialized - Failed');
+          }
+        }, 1000);
+      };
+
+      script.onerror = function() {
+        console.error('❌ Failed to load widget script!');
+        updateStatus('Failed to load widget script', 'error');
+        updateChecklist(0, 'error', 'Widget script loading - Failed (CORS? 404?)');
+      };
+
+      document.body.appendChild(script);
+    }
+
+    // Start loading
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadWidget);
+    } else {
+      loadWidget();
+    }
+
+    // Auto test API after 2 seconds
+    setTimeout(testAPIConnection, 2000);
+  </script>
+
+</body>
+</html>
