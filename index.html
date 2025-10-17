@@ -1,445 +1,419 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website External - Demo Embed Chat Widget BNPB</title>
-    <style>
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BNPB Chat Widget - GitHub Pages Demo</title>
+  <meta name="description" content="Demo BNPB Chat Widget yang di-load dari Docker container">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+    .container {
+      background: white;
+      padding: 50px 40px;
+      border-radius: 24px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+      max-width: 700px;
+      width: 100%;
+      animation: fadeInUp 0.6s ease-out;
+    }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-        .nav {
-            display: flex;
-            gap: 30px;
-        }
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
 
-        .nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
-        }
+    h1 {
+      color: #2d3748;
+      margin-bottom: 12px;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-        .nav a:hover {
-            opacity: 0.8;
-        }
+    .subtitle {
+      color: #718096;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
 
-        /* Hero Section */
-        .hero {
-            background: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
+    .info-card {
+      background: linear-gradient(135deg, #f6f8fb 0%, #e9ecef 100%);
+      border-left: 5px solid #667eea;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 25px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    .info-card h2 {
+      color: #2d3748;
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .hero h1 {
-            font-size: 2.5em;
-            color: #1e3c72;
-            margin-bottom: 20px;
-        }
+    .info-card p, .info-card ul {
+      color: #4a5568;
+      line-height: 1.7;
+      margin: 8px 0;
+    }
 
-        .hero p {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 30px;
-        }
+    .info-card ul {
+      padding-left: 25px;
+    }
 
-        .badge {
-            display: inline-block;
-            background: #28a745;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
+    .info-card li {
+      margin: 8px 0;
+    }
 
-        /* Content Section */
-        .content {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
+    .success-card {
+      background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+      border: 2px solid #48bb78;
+      color: #22543d;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 25px 0;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
+    }
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    .success-card h2 {
+      margin-bottom: 10px;
+      color: #22543d;
+      font-size: 1.5rem;
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-        }
+    .success-card p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
 
-        .card h3 {
-            color: #1e3c72;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
+    .controls {
+      margin-top: 35px;
+      padding-top: 30px;
+      border-top: 2px solid #e2e8f0;
+    }
 
-        .card p {
-            color: #666;
-            line-height: 1.8;
-        }
+    .controls h3 {
+      color: #2d3748;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.3rem;
+    }
 
-        .icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
 
-        /* Info Box */
-        .info-box {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            color: white;
-            text-align: center;
-        }
+    .button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
 
-        .info-box h2 {
-            margin-bottom: 15px;
-        }
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
 
-        .info-box p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
+    .button:active {
+      transform: translateY(-1px);
+    }
 
-        /* Footer */
-        .footer {
-            background: #2c3e50;
-            color: white;
-            padding: 40px 20px;
-            margin-top: 60px;
-            text-align: center;
-        }
+    .button.secondary {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+    }
 
-        .footer p {
-            opacity: 0.8;
-        }
+    .button.secondary:hover {
+      box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+    }
 
-        /* Chat Widget Container - Only cover bottom-right corner */
-        #bnpb-chat-widget-container {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            width: 450px;
-            height: 700px;
-            z-index: 999999;
-            background: transparent;
-            pointer-events: none;
-        }
+    code {
+      background: #2d3748;
+      color: #68d391;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'Courier New', Consolas, monospace;
+      font-size: 13px;
+      word-break: break-all;
+    }
 
-        #bnpb-chat-widget-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-            background: transparent;
-            pointer-events: auto;
-        }
+    .status {
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background: #edf2f7;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #4a5568;
+    }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
-            }
+    .status.loading {
+      background: #fef5e7;
+      color: #7c6b31;
+    }
 
-            .nav {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
+    .status.ready {
+      background: #f0fff4;
+      color: #22543d;
+    }
 
-            .hero h1 {
-                font-size: 2em;
-            }
+    .status.error {
+      background: #fff5f5;
+      color: #742a2a;
+    }
 
-            #bnpb-chat-widget-container {
-                width: 400px;
-                /* Fixed size */
-                height: 600px;
-                /* Fixed size */
-                bottom: 20px;
-                /* 20px margin dari bawah */
-                right: 20px;
-                /* 20px margin dari kanan */
-                border-radius: 12px;
-                box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
-            }
+    @media (max-width: 640px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        padding: 30px 20px;
+      }
 
-        }
-    </style>
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                🏢 PT. Demo Company
-            </div>
-            <nav class="nav">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <span class="badge">✨ Website External Demo</span>
-            <h1>Selamat Datang di Website Kami</h1>
-            <p>
-                Ini adalah contoh website eksternal yang menggunakan Chat Widget BNPB.
-                Widget chat akan muncul di pojok kanan bawah layar Anda.
-            </p>
-        </div>
-    </section>
-
-    <!-- Content Cards -->
-    <section class="content">
-        <div class="card">
-            <div class="icon">🚀</div>
-            <h3>Integrasi Mudah</h3>
-            <p>
-                Chat widget terintegrasi dengan mudah menggunakan iframe isolation.
-                Tidak ada konflik CSS dengan website utama Anda.
-            </p>
-        </div>
-        <div class="card">
-            <div class="icon">🔒</div>
-            <h3>Aman & Terisolasi</h3>
-            <p>
-                Menggunakan iframe untuk isolasi penuh. Widget berjalan di sandbox
-                sendiri tanpa mempengaruhi website utama.
-            </p>
-        </div>
-        <div class="card">
-            <div class="icon">💬</div>
-            <h3>Real-time Chat</h3>
-            <p>
-                Komunikasi langsung dengan tim support BNPB. Dapatkan bantuan
-                cepat dan responsif kapan saja.
-            </p>
-        </div>
-    </section>
-
-    <!-- Info Box -->
-    <div class="info-box">
-        <h2>🎯 Chat Widget Aktif</h2>
-        <p>
-            Lihat pojok kanan bawah layar Anda! Chat widget BNPB sudah aktif dan siap digunakan.
-            Klik bubble chat untuk memulai percakapan.
-        </p>
+  <div class="container">
+    <div class="header">
+      <div class="badge">🚀 Hosted on GitHub Pages</div>
+      <h1>BNPB Chat Widget Demo</h1>
+      <p class="subtitle">
+        Widget chat ini di-load dari Docker container yang berjalan di server Anda.<br>
+        Sama seperti Tidio - cukup satu script saja!
+      </p>
     </div>
 
-    <!-- More Content -->
-    <section class="content">
-        <div class="card">
-            <div class="icon">📱</div>
-            <h3>Responsive Design</h3>
-            <p>
-                Widget menyesuaikan dengan ukuran layar perangkat Anda.
-                Tampil sempurna di desktop, tablet, dan mobile.
-            </p>
-        </div>
-        <div class="card">
-            <div class="icon">🌐</div>
-            <h3>Multi-language</h3>
-            <p>
-                Mendukung Bahasa Indonesia dan English. Pengguna dapat
-                mengganti bahasa sesuai preferensi mereka.
-            </p>
-        </div>
-        <div class="card">
-            <div class="icon">⚡</div>
-            <h3>Performa Cepat</h3>
-            <p>
-                Load time cepat dan ringan. Tidak memperlambat website
-                utama Anda karena berjalan secara terpisah.
-            </p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p>© 2024 PT. Demo Company. All rights reserved.</p>
-        <p style="margin-top: 10px;">Powered by BNPB Chat Widget</p>
-    </footer>
-
-    <!-- BNPB Chat Widget Integration -->
-    <div id="bnpb-chat-widget-container">
-        <iframe id="bnpb-chat-widget-iframe" src="https://8efab23065dc.ngrok-free.app"
-            title="BNPB Chat Widget" allow="clipboard-write" loading="lazy">
-        </iframe>
+    <div id="widget-status" class="status loading">
+      ⏳ Loading widget...
     </div>
 
-    <!-- Widget Communication Script -->
-    <script>
-        // Komunikasi dengan chat widget iframe
-        const chatIframe = document.getElementById('bnpb-chat-widget-iframe');
+    <div class="success-card">
+      <h2>🎉 Single Script Deployment</h2>
+      <p>
+        Widget berhasil di-embed dari Docker container tanpa iframe!
+      </p>
+    </div>
 
-        // Listen untuk pesan dari widget
-        window.addEventListener('message', (event) => {
-            // Verifikasi origin (di production, gunakan domain spesifik)
-            if (event.origin !== 'https://8efab23065dc.ngrok-free.app') {
-                return;
-            }
+    <div class="info-card">
+      <h2>📋 Setup Info</h2>
+      <ul>
+        <li><strong>Widget Source:</strong> Docker Container + Ngrok</li>
+        <li><strong>Widget URL:</strong> <code id="widget-url">Loading...</code></li>
+        <li><strong>Deployment:</strong> GitHub Pages (Static HTML)</li>
+        <li><strong>Integration:</strong> Single <code>&lt;script&gt;</code> tag</li>
+      </ul>
+    </div>
 
-            console.log('📨 Received message from chat widget:', event.data);
+    <div class="info-card">
+      <h2>💡 Cara Kerja</h2>
+      <p>
+        1️⃣ Docker container build widget → <code>bnpb-chat-widget.js</code><br>
+        2️⃣ Nginx serve di <code>/widget/</code> dengan CORS enabled<br>
+        3️⃣ Ngrok expose container ke internet<br>
+        4️⃣ GitHub Pages HTML load script dari Ngrok URL<br>
+        5️⃣ Widget otomatis muncul di pojok kanan bawah!
+      </p>
+    </div>
 
-            // Handle berbagai tipe pesan dari widget
-            const {
-                type,
-                data
-            } = event.data || {};
+    <div class="controls">
+      <h3>🎮 Widget Controls</h3>
+      <div class="button-grid">
+        <button class="button" onclick="openWidget()">
+          💬 Buka Chat
+        </button>
+        <button class="button secondary" onclick="closeWidget()">
+          ❌ Tutup Chat
+        </button>
+        <button class="button" onclick="sendTestMessage()">
+          📨 Test Message
+        </button>
+        <button class="button secondary" onclick="toggleLanguage()">
+          🌐 Toggle Bahasa
+        </button>
+      </div>
+    </div>
 
-            switch (type) {
-                case 'WIDGET_READY':
-                    console.log('✅ Chat widget ready!');
-                    // Kirim konfigurasi awal
-                    sendMessageToWidget('INITIALIZE', {
-                        language: 'id',
-                        theme: 'auto',
-                        backgroundColor: 'transparent',
-                        enableBackground: false
-                    });
-                    // Inject CSS untuk memastikan background transparan
-                    try {
-                        const iframeDoc = chatIframe.contentDocument || chatIframe.contentWindow.document;
-                        if (iframeDoc) {
-                            const style = iframeDoc.createElement('style');
-                            style.textContent = `
-                                body, html, #app, #chat-widget {
-                                    background: transparent !important;
-                                    background-color: transparent !important;
-                                }
-                            `;
-                            iframeDoc.head.appendChild(style);
-                        }
-                    } catch (e) {
-                        console.warn('Cannot inject styles to iframe (likely cross-origin):', e);
-                    }
-                    break;
+    <div class="info-card" style="margin-top: 30px;">
+      <h2>🔧 Untuk Developer</h2>
+      <p><strong>Update Widget URL:</strong></p>
+      <p style="margin-top: 10px;">
+        Edit file ini dan ganti <code>WIDGET_BASE_URL</code> dengan ngrok URL Anda:
+      </p>
+      <code style="display: block; margin-top: 10px; padding: 10px;">
+        https://YOUR-NGROK-URL.ngrok-free.app
+      </code>
+    </div>
+  </div>
 
-                case 'LANGUAGE_RESPONSE':
-                    console.log('🌐 Current language:', data.language);
-                    break;
+  <!-- 
+    ============================================
+    BNPB CHAT WIDGET - LOADED FROM DOCKER
+    ============================================
+    
+    Ganti URL ini dengan ngrok URL yang sedang running:
+    1. Jalankan: docker-compose up -d
+    2. Jalankan: ngrok http 6184
+    3. Salin ngrok URL (contoh: https://abc123.ngrok-free.app)
+    4. Ganti WIDGET_BASE_URL di bawah
+  -->
+  <script>
+    // GANTI URL INI DENGAN NGROK URL ANDA!
+    const WIDGET_BASE_URL = 'https://5bcec2f553bc.ngrok-free.app';
+    
+    // Update UI dengan URL yang digunakan
+    document.getElementById('widget-url').textContent = WIDGET_BASE_URL + '/widget/bnpb-chat-widget.js';
+    
+    // Load widget script dynamically
+    (function() {
+      const script = document.createElement('script');
+      script.src = WIDGET_BASE_URL + '/widget/bnpb-chat-widget.js';
+      script.async = true;
+      
+      // Widget configuration via data attributes
+      script.setAttribute('data-api-url', WIDGET_BASE_URL);
+      script.setAttribute('data-website-id', 'github-pages-demo');
+      script.setAttribute('data-language', 'id');
+      script.setAttribute('data-theme', 'light');
+      script.setAttribute('data-position', 'bottom-right');
+      
+      // Success handler
+      script.onload = function() {
+        console.log('✅ Widget loaded successfully from Docker!');
+        document.getElementById('widget-status').className = 'status ready';
+        document.getElementById('widget-status').innerHTML = '✅ Widget ready!';
+      };
+      
+      // Error handler
+      script.onerror = function() {
+        console.error('❌ Failed to load widget from:', WIDGET_BASE_URL);
+        document.getElementById('widget-status').className = 'status error';
+        document.getElementById('widget-status').innerHTML = 
+          '❌ Failed to load widget. Pastikan Docker container running dan ngrok URL benar!';
+      };
+      
+      // Append to document
+      document.body.appendChild(script);
+    })();
+  </script>
 
-                case 'WIDGET_OPENED':
-                    console.log('📖 Widget drawer opened');
-                    break;
+  <!-- Widget Control Functions -->
+  <script>
+    // Wait for widget to be ready
+    function waitForWidget(callback) {
+      if (window.bnpbChatWidget && window.bnpbChatWidget.isReady()) {
+        callback();
+      } else {
+        setTimeout(() => waitForWidget(callback), 100);
+      }
+    }
 
-                case 'WIDGET_CLOSED':
-                    console.log('📕 Widget drawer closed');
-                    break;
+    function openWidget() {
+      waitForWidget(() => {
+        window.bnpbChatWidget.open();
+        console.log('✅ Widget opened');
+      });
+    }
 
-                case 'NEW_MESSAGE':
-                    console.log('💬 New message received:', data);
-                    break;
+    function closeWidget() {
+      waitForWidget(() => {
+        window.bnpbChatWidget.close();
+        console.log('✅ Widget closed');
+      });
+    }
 
-                default:
-                    console.log('Unknown message type:', type);
-            }
-        });
+    function sendTestMessage() {
+      waitForWidget(() => {
+        window.bnpbChatWidget.sendMessage('Halo! Ini test message dari GitHub Pages 🚀');
+        window.bnpbChatWidget.open();
+        console.log('✅ Test message sent');
+      });
+    }
 
-        // Fungsi untuk kirim pesan ke widget
-        function sendMessageToWidget(type, data) {
-            if (chatIframe && chatIframe.contentWindow) {
-                chatIframe.contentWindow.postMessage({
-                    type,
-                    data,
-                    source: 'external-website'
-                }, 'https://8efab23065dc.ngrok-free.app');
-            }
-        }
+    let currentLang = 'id';
+    function toggleLanguage() {
+      waitForWidget(() => {
+        currentLang = currentLang === 'id' ? 'en' : 'id';
+        window.bnpbChatWidget.changeLanguage(currentLang);
+        alert('✅ Bahasa diubah ke: ' + currentLang.toUpperCase());
+        console.log('✅ Language changed to:', currentLang);
+      });
+    }
 
-        // API publik untuk kontrol widget dari website eksternal
-        window.BNPBChatWidget = {
-            // Ganti bahasa widget
-            changeLanguage: function(locale) {
-                sendMessageToWidget('SET_LANGUAGE', locale);
-            },
-
-            // Dapatkan bahasa saat ini
-            getCurrentLanguage: function() {
-                sendMessageToWidget('GET_LANGUAGE');
-            },
-
-            // Update atribut widget
-            updateAttributes: function(attributes) {
-                sendMessageToWidget('UPDATE_ATTRIBUTES', attributes);
-            }
-        };
-
-        // Log saat iframe selesai load
-        chatIframe.addEventListener('load', () => {
-            console.log('🖼️ Chat widget iframe loaded successfully');
-        });
-
-        // Handle error saat load iframe
-        chatIframe.addEventListener('error', (error) => {
-            console.error('❌ Error loading chat widget:', error);
-        });
-
-        console.log('🚀 External website initialized');
-        console.log('📍 Chat widget URL:', chatIframe.src);
-        console.log('💡 Try: window.BNPBChatWidget.changeLanguage("en")');
-    </script>
+    // Log widget readiness
+    window.addEventListener('load', () => {
+      waitForWidget(() => {
+        console.log('🎉 BNPB Chat Widget ready from Docker!');
+        console.log('📍 Widget URL:', WIDGET_BASE_URL);
+        console.log('🔧 Widget instance:', window.bnpbChatWidget);
+      });
+    });
+  </script>
 </body>
-
 </html>
