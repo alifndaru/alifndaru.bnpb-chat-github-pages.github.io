@@ -14,6 +14,14 @@
     }
     h1 { color: #333; }
     p { color: #666; }
+    .debug {
+      background: #f5f5f5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
   </style>
 </head>
 <body>
@@ -21,35 +29,45 @@
   <p>Ini adalah contoh website biasa. Widget chat akan muncul otomatis di pojok kanan bawah.</p>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
-  <!-- 
-    BNPB Chat Widget - Cukup script ini saja!
-    Ganti URL dengan ngrok URL Anda
-  -->
-    <script 
-    src="https://8efab23065dc.ngrok-free.app/widget/bnpb-chat-widget.js"
-    data-api-url="https://dkms.bnpb.go.id/ai/api/cms-backend/api/v1"
-    data-website-id="github-pages-demo"
-    data-language="id"
-    async>
+  <div class="debug" id="debug">
+    <strong>Widget Status:</strong> <span id="status">Loading...</span>
+  </div>
+
+  <!-- BNPB Chat Widget -->
+  <script>
+    const debugEl = document.getElementById('status');
+    
+    // Try to load widget
+    debugEl.textContent = '⏳ Loading widget script...';
+    
+    const script = document.createElement('script');
+    script.src = 'https://8efab23065dc.ngrok-free.app/widget/bnpb-chat-widget.js';
+    script.setAttribute('data-api-url', 'https://dkms.bnpb.go.id/ai/api/cms-backend/api/v1');
+    script.setAttribute('data-website-id', 'github-pages-demo');
+    script.setAttribute('data-language', 'id');
+    script.async = true;
+    
+    script.onload = function() {
+      debugEl.innerHTML = '✅ Script loaded! Checking widget...';
+      console.log('✅ Script loaded');
+      
+      setTimeout(() => {
+        if (window.BNPBChatWidget) {
+          debugEl.innerHTML = '✅ Widget ready!';
+          console.log('✅ BNPBChatWidget found');
+        } else {
+          debugEl.innerHTML = '❌ Widget object not found';
+          console.error('❌ BNPBChatWidget not found');
+        }
+      }, 1000);
+    };
+    
+    script.onerror = function(e) {
+      debugEl.innerHTML = '❌ Failed to load! <br><small>Ngrok blocking cross-origin request.<br>Solution: Open <a href="https://8efab23065dc.ngrok-free.app/" target="_blank">ngrok URL</a> first, click "Visit Site", then refresh this page.</small>';
+      console.error('❌ Script load failed:', e);
+    };
+    
+    document.head.appendChild(script);
   </script>
 </body>
 </html>
-<!-- <!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Demo dengan Konfigurasi</title>
-</head>
-<body>
-  <h1>Website dengan Chat Widget</h1>
-  <p>Contoh dengan konfigurasi tambahan (bahasa, tema, posisi).</p>
-  <script 
-    src="https://5bcec2f553bc.ngrok-free.app/widget/bnpb-chat-widget.js"
-    data-language="id"
-    data-theme="light"
-    data-position="bottom-right"
-    async>
-  </script>
-
-</body>
-</html> -->
